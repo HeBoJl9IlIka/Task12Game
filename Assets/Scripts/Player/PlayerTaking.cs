@@ -11,10 +11,12 @@ public class PlayerTaking : MonoBehaviour
 
     public UnityAction<Item> Approached;
     public UnityAction Departed;
+    public UnityAction Took;
 
-    public void TakeItem()
+    public void TryTakeItem()
     {
-        _playerInventory.TryAddItem(_currentItem);
+        if (_playerInventory.TryAddItem(_currentItem))
+            Took?.Invoke();
     }
 
     private void Awake()
@@ -25,16 +27,12 @@ public class PlayerTaking : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.TryGetComponent(out _currentItem))
-        {
             Approached?.Invoke(_currentItem);
-        }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.collider.TryGetComponent(out _currentItem))
-        {
             Departed?.Invoke();
-        }
     }
 }

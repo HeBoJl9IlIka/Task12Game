@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Ability : MonoBehaviour
 {
@@ -9,20 +10,19 @@ public class Ability : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.TryGetComponent(out EnemyMovement enemyMovement))
+        if (collision.TryGetComponent(out PersecutionState enemy))
         {
-            enemyMovement.Stop(_delay);
+            enemy.Stun(_delay);
         }
     }
 
     private void OnEnable()
     {
-        StartCoroutine(Disable());
+        Invoke(nameof(Disable), _duration);
     }
 
-    private IEnumerator Disable()
+    private void Disable()
     {
-        yield return new WaitForSeconds(_duration);
         gameObject.SetActive(false);
     }
 }

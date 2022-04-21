@@ -17,4 +17,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Appodeal/Demo/Scenes/AppodealDemoScene.unity
     guid: 0765b2f4d7cf441fb83dec76ff0ed553
+  - enabled: 1
+    path: Assets/Scenes/Level1.unity
+    guid: 9df0354d69ff6844f83b43ae3ecf3faa
+  - enabled: 1
+    path: Assets/Scenes/Level2.unity
+    guid: acb3d224b64707d4282a59961f9b3054
   m_configObjects: {}

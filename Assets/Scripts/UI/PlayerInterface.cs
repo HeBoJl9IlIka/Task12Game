@@ -3,23 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class PlayerInterface : MonoBehaviour
 {
     [SerializeField] private GameObject _buttonTakeItem;
-    [SerializeField] private PlayerTaking _playerTake;
+    [SerializeField] private PlayerTaking _playerTaking;
+    [SerializeField] private PlayerAbility _playerAbility;
+    [SerializeField] private PlayerInventory _playerInventory;
     [SerializeField] private TMP_Text _labelTitle;
-
+    [SerializeField] private TMP_Text _itemCounter;
+    [SerializeField] private TMP_Text _abilityCounter;
+    
     private void OnEnable()
     {
-        _playerTake.Approached += OnApproached;
-        _playerTake.Departed += OnDeparted;
+        _playerTaking.Approached += OnApproached;
+        _playerTaking.Departed += OnDeparted;
+        _playerTaking.Took += OnTook;
     }
 
     private void OnDisable()
     {
-        _playerTake.Approached -= OnApproached;
-        _playerTake.Departed -= OnDeparted;
+        _playerTaking.Approached -= OnApproached;
+        _playerTaking.Departed -= OnDeparted;
+        _playerTaking.Took -= OnTook;
+    }
+
+    public void UpdateAbilityCount()
+    {
+        _abilityCounter.text = "x" + _playerAbility.CurrentCount.ToString();
     }
 
     private void OnApproached(Item item)
@@ -31,5 +43,10 @@ public class PlayerInterface : MonoBehaviour
     private void OnDeparted()
     {
         _buttonTakeItem.SetActive(false);
+    }
+
+    private void OnTook()
+    {
+        _itemCounter.text = _playerInventory.CurrentItemCount + "/" + _playerInventory.MaxCount.ToString();
     }
 }

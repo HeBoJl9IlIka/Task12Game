@@ -7,11 +7,15 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private int _health;
 
-    public UnityEvent PlayerDied;
+    public bool IsDead => _health <= 0;
+
+    public UnityEvent Died;
+    public UnityEvent TookDamage;
 
     public void TakeDamage(int damage)
     {
         _health -= damage;
+        TookDamage?.Invoke();
         CheckHealth();
     }
 
@@ -19,7 +23,7 @@ public class Player : MonoBehaviour
     {
         if (_health <= 0)
         {
-            PlayerDied?.Invoke();
+            Died?.Invoke();
         }
     }
 }
