@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerMovement : MonoBehaviour
@@ -9,6 +8,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private DynamicJoystick _dynamicJoystick;
 
     private Rigidbody2D _rigidbody2D;
+
+    public UnityAction Moved;
+    public UnityAction Stopped;
 
     private void Awake()
     {
@@ -20,10 +22,17 @@ public class PlayerMovement : MonoBehaviour
         Move(_dynamicJoystick.Direction);
     }
 
-    private void Move(Vector2 direction)
+    private void Move(Vector2 directionJoystick)
     {
+        if (directionJoystick == new Vector2(0, 0))
+        {
+            Stopped?.Invoke();
+            return;
+        }
+
         float scaleMoveSpeed = _moveSpeed * Time.deltaTime;
-        Vector2 move = new Vector2(direction.x, direction.y);
-        _rigidbody2D.MovePosition(_rigidbody2D.position + move * scaleMoveSpeed);
+        Vector2 direction = new Vector2(directionJoystick.x, directionJoystick.y);
+        _rigidbody2D.MovePosition(_rigidbody2D.position + direction * scaleMoveSpeed);
+        Moved?.Invoke();
     }
 }

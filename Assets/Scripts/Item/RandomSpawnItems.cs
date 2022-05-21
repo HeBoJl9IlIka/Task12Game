@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,7 +14,6 @@ public class RandomSpawnItems : MonoBehaviour
         AddItemsInPool();
         AddPointsInSpawner();
 
-       
         foreach (var item in _items)
         {
             if (_points.Count > 0)

@@ -1,15 +1,16 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class DoorMovement : MonoBehaviour
 {
+    [SerializeField] private ButtonOpeningDoor _buttonOpeningDoor;
     [SerializeField] private Transform _door;
     [SerializeField] private Transform _targetPosition;
-    [SerializeField] private float _delay;
+    [SerializeField] private float _speedMove;
 
     private Transform _defaultPosition;
+    private Coroutine _currentCoroutine;
 
     public bool IsOpening { get; private set; }
 
@@ -21,33 +22,55 @@ public class DoorMovement : MonoBehaviour
         _defaultPosition = transform;
     }
 
-    private void Update()
+    private void OnEnable()
     {
-        if (IsOpening)
+        _buttonOpeningDoor.ButtonPressed += OnButtonPressed;
+        _buttonOpeningDoor.ButtonReleased += OnButtonReleased;
+    }
+
+    private void OnDisable()
+    {
+        _buttonOpeningDoor.ButtonPressed -= OnButtonPressed;
+        _buttonOpeningDoor.ButtonReleased -= OnButtonReleased;
+    }
+
+    private void OnButtonPressed()
+    {
+        if(_currentCoroutine != null)
         {
-            _door.position = Vector3.MoveTowards(_door.position, _targetPosition.position, _delay * Time.deltaTime);
+            StopCoroutine(_currentCoroutine);
         }
-        else
+
+        _currentCoroutine = StartCoroutine(Open());
+        OpenedDoor?.Invoke();
+    }
+
+    private void OnButtonReleased()
+    {
+        if (_currentCoroutine != null)
         {
-            _door.position = Vector3.MoveTowards(_door.position, _defaultPosition.position, _delay * Time.deltaTime);
+            StopCoroutine(_currentCoroutine);
+        }
+
+        _currentCoroutine = StartCoroutine(Close());
+        ClosedDoor?.Invoke();
+    }
+
+    private IEnumerator Open()
+    {
+        while (_door.position != _targetPosition.position)
+        {
+            _door.position = Vector3.MoveTowards(_door.position, _targetPosition.position, _speedMove * Time.deltaTime);
+            yield return null;
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private IEnumerator Close()
     {
-        if (collision.TryGetComponent(out Rigidbody2D rigidbody))
+        while (_door.position != _defaultPosition.position)
         {
-            IsOpening = true;
-            OpenedDoor?.Invoke();
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.TryGetComponent(out Rigidbody2D rigidbody))
-        {
-            IsOpening = false;
-            ClosedDoor?.Invoke();
+            _door.position = Vector3.MoveTowards(_door.position, _defaultPosition.position, _speedMove * Time.deltaTime);
+            yield return null;
         }
     }
 }

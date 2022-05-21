@@ -1,14 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using IJunior.TypedScenes;
+using UnityEngine.Events;
 
 public class LoadingBaseScene : MonoBehaviour
 {
     [SerializeField] private PlayerInventory _playerInventory;
     [SerializeField] private Player _player;
 
-    public void LoadBaseScene()
+    public UnityEvent Uploaded;
+
+    public void Load()
     {
         if (_player.IsDead)
         {
@@ -18,5 +19,7 @@ public class LoadingBaseScene : MonoBehaviour
         {
             Base.Load(_playerInventory.GetItems().ToArray());
         }
+
+        Uploaded?.Invoke();
     }
 }

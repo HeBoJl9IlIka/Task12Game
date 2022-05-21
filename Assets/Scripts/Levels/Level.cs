@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -8,7 +6,6 @@ public class Level : MonoBehaviour
     [SerializeField] private PlayerWarehouse _playerWarehouse;
     [SerializeField] private GameSaving _gameSaving;
     [SerializeField] private GameObject _buttonOpen;
-    [SerializeField] private GameObject _imageItem;
     [SerializeField] private GameObject _block;
     [SerializeField] private LevelNumber _number;
     [SerializeField] private PlayerWarehouse.KeyCardColor _needKeyCardColor;
@@ -28,8 +25,7 @@ public class Level : MonoBehaviour
         Six,
         Seven,
         Eight,
-        Nine,
-        Ten
+        Nine
     }
 
     private void Awake()

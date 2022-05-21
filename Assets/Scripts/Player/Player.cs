@@ -1,21 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class Player : MonoBehaviour
 {
     [SerializeField] private int _health;
-
-    public bool IsDead => _health <= 0;
+    [SerializeField] private UnityEvent _tookDamage;
 
     public UnityEvent Died;
-    public UnityEvent TookDamage;
+    public UnityAction<int> TookDamage;
+    
+    public bool IsDead => _health <= 0;
 
     public void TakeDamage(int damage)
     {
         _health -= damage;
-        TookDamage?.Invoke();
+        _tookDamage?.Invoke();
+        TookDamage?.Invoke(_health);
         CheckHealth();
     }
 

@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Item : MonoBehaviour
 {
@@ -11,6 +10,8 @@ public class Item : MonoBehaviour
     public string Label => _label;
     public Sprite Icon => _icon;
     public Object Type => _object;
+
+    public UnityAction Disabled;
 
     public enum Object
     {
@@ -23,5 +24,6 @@ public class Item : MonoBehaviour
     public void Disable()
     {
         gameObject.SetActive(false);
+        Disabled?.Invoke();
     }
 }

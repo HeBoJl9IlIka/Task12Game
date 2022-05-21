@@ -1,17 +1,58 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using IJunior.TypedScenes;
 
 public class LevelLoading : MonoBehaviour
 {
-    public void LoadLevel1()
+    [SerializeField] private AnimationLevelLoading _animationLevelLoading;
+
+    private int _levelNumber;
+
+    private void OnEnable()
     {
-        Level1.Load();
+        _animationLevelLoading.Ended += OnEnded;
     }
-    
-    public void LoadLevel2()
+
+    private void OnDisable()
     {
-        Level2.Load();
+        _animationLevelLoading.Ended -= OnEnded;
+    }
+
+    private void OnEnded()
+    {
+        switch (_levelNumber)
+        {
+            case 1:
+                Level1.Load();
+                break;
+            case 2:
+                Level2.Load();
+                break;
+            case 3:
+                Level3.Load();
+                break;
+            case 4:
+                Level4.Load();
+                break;
+            case 5:
+                Level5.Load();
+                break;
+            case 6:
+                Level6.Load();
+                break;
+            case 7:
+                Level7.Load();
+                break;
+            case 8:
+                Level8.Load();
+                break;
+            case 9:
+                Level9.Load();
+                break;
+        }
+    }
+
+    public void SetLevelNumber(int levelNumber)
+    {
+        _levelNumber = levelNumber;
     }
 }

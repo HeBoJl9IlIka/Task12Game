@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class PlayerWarehouse : DataTransfer
 {
     [SerializeField] private GameSaving _gameSaving;
+    [SerializeField] private AdSettings _adSettings;
     [SerializeField] private int _needScrapMetal;
     [SerializeField] private int _defaultRobotCount;
 
@@ -16,6 +15,8 @@ public class PlayerWarehouse : DataTransfer
     public UnityAction<int> UsedGreenKeyCard;
     public UnityAction<int> UsedBlueKeyCard;
     public UnityAction<int> UsedRedKeyCard;
+    public UnityAction NotEnoughMetal;
+    public UnityAction NotEnoughKeyCard;
 
     public enum KeyCardColor
     {
@@ -30,7 +31,7 @@ public class PlayerWarehouse : DataTransfer
 
         if (_gameSaving.IsFirstStart)
         {
-            RobotCount += _defaultRobotCount;
+            RobotCount = _defaultRobotCount;
             _gameSaving.SetData();
         }
 
@@ -45,10 +46,22 @@ public class PlayerWarehouse : DataTransfer
         UsedRedKeyCard?.Invoke(RedKeyCardCount);
     }
 
+    private void OnEnable()
+    {
+        _adSettings.VideoFinished += OnVideoFinished;
+    }
+
+    private void OnDisable()
+    {
+        _adSettings.VideoFinished -= OnVideoFinished;
+    }
+
     public void TryAddRobot()
     {
         if (ScrapMetalCount >= _needScrapMetal)
-            AssembledRobot?.Invoke(++RobotCount, ScrapMetalCount - _needScrapMetal);
+            AssembledRobot?.Invoke(++RobotCount, ScrapMetalCount -= _needScrapMetal);
+        else
+            NotEnoughMetal?.Invoke();
     }
 
     public bool TryUseKeyCard(KeyCardColor keyCardColor)
@@ -82,9 +95,14 @@ public class PlayerWarehouse : DataTransfer
         return isKeyCard;
     }
 
-    private bool CheckForCards(int CardCount)
+    private bool CheckForCards(int cardCount)
     {
-        return CardCount > 0;
+        if (cardCount == 0)
+        {
+            NotEnoughKeyCard?.Invoke();
+        }
+
+        return cardCount > 0;
     }
     private void LoadData()
     {
@@ -100,5 +118,11 @@ public class PlayerWarehouse : DataTransfer
     private void DeleteRobot()
     {
         --RobotCount;
+    }
+
+    private void OnVideoFinished(double scrapMetalCount)
+    {
+        ScrapMetalCount += (int)scrapMetalCount;
+        AssembledRobot?.Invoke(RobotCount, ScrapMetalCount);
     }
 }
