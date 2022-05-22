@@ -11,7 +11,7 @@ public class Item : MonoBehaviour
     public Sprite Icon => _icon;
     public Object Type => _object;
 
-    public UnityAction Disabled;
+    public event UnityAction Disabled;
 
     public enum Object
     {

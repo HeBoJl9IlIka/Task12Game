@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
     [SerializeField] private UnityEvent _tookDamage;
 
     public UnityEvent Died;
-    public UnityAction<int> TookDamage;
+    public event UnityAction<int> TookDamage;
     
     public bool IsDead => _health <= 0;
 
@@ -16,14 +16,8 @@ public class Player : MonoBehaviour
         _health -= damage;
         _tookDamage?.Invoke();
         TookDamage?.Invoke(_health);
-        CheckHealth();
-    }
 
-    private void CheckHealth()
-    {
-        if (_health <= 0)
-        {
+        if(IsDead)
             Died?.Invoke();
-        }
     }
 }

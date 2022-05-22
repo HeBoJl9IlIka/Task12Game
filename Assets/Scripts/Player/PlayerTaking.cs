@@ -7,9 +7,9 @@ public class PlayerTaking : MonoBehaviour
     private Item _currentItem;
     private PlayerInventory _playerInventory;
 
-    public UnityAction<Item> Approached;
-    public UnityAction Departed;
-    public UnityAction Took;
+    public event UnityAction<Item> Approached;
+    public event UnityAction Departed;
+    public event UnityAction Took;
 
     public void TryTakeItem()
     {

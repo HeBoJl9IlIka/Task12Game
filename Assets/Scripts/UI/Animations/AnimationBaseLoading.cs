@@ -13,7 +13,7 @@ public class AnimationBaseLoading : MonoBehaviour
 
     private Coroutine _corruntCoroutine;
 
-    public UnityAction Ended;
+    public event UnityAction Ended;
 
     public void Start()
     {

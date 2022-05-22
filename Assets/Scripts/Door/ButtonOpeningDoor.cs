@@ -9,8 +9,8 @@ public class ButtonOpeningDoor : MonoBehaviour
     private SpriteRenderer _spriteRenderer;
     private Color _defaultColor;
 
-    public UnityAction ButtonPressed;
-    public UnityAction ButtonReleased;
+    public event UnityAction ButtonPressed;
+    public event UnityAction ButtonReleased;
 
     private void Start()
     {

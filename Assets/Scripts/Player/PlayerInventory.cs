@@ -41,8 +41,8 @@ public class PlayerInventory : MonoBehaviour
         return allItem;
     }
 
-    public List<Item> GetItems()
+    public Item[] GetItems()
     {
-        return _items;
+        return _items.ToArray();
     }
 }

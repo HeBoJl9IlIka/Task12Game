@@ -7,8 +7,8 @@ public class AdSettings : MonoBehaviour, IRewardedVideoAdListener
 {
     private const string AppKey = "9788513d4db24cdf22fbdc2cc5e871fa38f74b803cb8a280";
 
-    public UnityAction<double> VideoFinished;
     public UnityEvent VideoLoaded;
+    public event UnityAction<double> VideoFinished;
 
     private void Start()
     {

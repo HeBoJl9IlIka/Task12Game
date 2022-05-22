@@ -13,7 +13,7 @@ public class AnimationCapsule : MonoBehaviour
     [SerializeField] private float _delay;
 
     public UnityEvent Opened;
-    public UnityAction Ended;
+    public event UnityAction Ended;
 
     public void ChangeColorToTarget()
     {

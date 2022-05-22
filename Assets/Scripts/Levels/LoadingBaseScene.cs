@@ -17,7 +17,7 @@ public class LoadingBaseScene : MonoBehaviour
         }
         else
         {
-            Base.Load(_playerInventory.GetItems().ToArray());
+            Base.Load(_playerInventory.GetItems());
         }
 
         Uploaded?.Invoke();

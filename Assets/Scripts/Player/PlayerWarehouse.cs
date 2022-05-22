@@ -11,12 +11,12 @@ public class PlayerWarehouse : DataTransfer
     public int NeedScrapMetal => _needScrapMetal;
     public int RobotCount { get; private set; }
 
-    public UnityAction<int, int> AssembledRobot;
-    public UnityAction<int> UsedGreenKeyCard;
-    public UnityAction<int> UsedBlueKeyCard;
-    public UnityAction<int> UsedRedKeyCard;
-    public UnityAction NotEnoughMetal;
-    public UnityAction NotEnoughKeyCard;
+    public event UnityAction<int, int> AssembledRobot;
+    public event UnityAction<int> UsedGreenKeyCard;
+    public event UnityAction<int> UsedBlueKeyCard;
+    public event UnityAction<int> UsedRedKeyCard;
+    public event UnityAction NotEnoughMetal;
+    public event UnityAction NotEnoughKeyCard;
 
     public enum KeyCardColor
     {

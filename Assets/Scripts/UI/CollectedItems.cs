@@ -18,6 +18,6 @@ public class CollectedItems : MonoBehaviour
 
     public void AddItems()
     {
-        _items = _playerInventory.GetItems().ToArray();
+        _items = _playerInventory.GetItems();
     }
 }

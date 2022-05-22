@@ -16,7 +16,7 @@ public class AnimationLevelLoading : MonoBehaviour
 
     private Coroutine _corruntCoroutine;
 
-    public UnityAction Ended;
+    public event UnityAction Ended;
 
     public void Run()
     {

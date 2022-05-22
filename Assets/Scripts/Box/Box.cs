@@ -7,8 +7,8 @@ public class Box : MonoBehaviour
     private Rigidbody2D _rigidbody2D;
     private float _minSpeed = 0.5f;
 
-    public UnityAction Moved;
-    public UnityAction Stopped;
+    public event UnityAction Moved;
+    public event UnityAction Stopped;
 
     private void Start()
     {

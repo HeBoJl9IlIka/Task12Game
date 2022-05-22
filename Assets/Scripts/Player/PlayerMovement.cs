@@ -9,8 +9,8 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody2D _rigidbody2D;
 
-    public UnityAction Moved;
-    public UnityAction Stopped;
+    public event UnityAction Moved;
+    public event UnityAction Stopped;
 
     private void Awake()
     {
